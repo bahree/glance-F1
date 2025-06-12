@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  f1_api:
+    container_name: f1_api
+    build:
+      context: ./f1_api_wrappers
+    ports:
+      - 4463:4463
+    restart: unless-stopped
