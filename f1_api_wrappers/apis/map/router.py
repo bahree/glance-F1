@@ -12,8 +12,7 @@ from .map_generator import generate_track_map_svg
 
 router = APIRouter()
 
-LOCAL_IP = os.environ['LOCAL_IP'].strip()
-LAST_RACE_API_URL = "http://" + LOCAL_IP + ":4463/f1/next_race/"
+LAST_RACE_API_URL = "http://localhost:4463/f1/next_race/"
 
 MT = pytz.timezone("America/Edmonton")
 UTC = pytz.utc
