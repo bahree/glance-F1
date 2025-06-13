@@ -4,10 +4,16 @@ from fastapi_cache.backends.inmemory import InMemoryBackend
 import httpx
 from datetime import datetime, timedelta
 import pytz
+import os
 
 router = APIRouter()
 
-MT = pytz.timezone("America/Edmonton")
+TZ = os.environ['TIMEZONE'].strip()
+
+if TZ not in pytz.all_timezones:
+    raise ValueError('Invalid time zone selection')
+
+MT = pytz.timezone(TZ)
 UTC = pytz.utc
 
 # Initialize memory caching
@@ -87,6 +93,11 @@ async def get_last_race():
     except Exception as e:
         print("Failed to determine cache expiry:", e)
         expire = 60 * 60
+
+    data = {
+        "timezone": TZ,
+        **data
+    }
 
     await cache.set(cache_key, data, expire=expire)
     return data
