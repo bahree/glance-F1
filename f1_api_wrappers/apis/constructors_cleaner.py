@@ -74,7 +74,7 @@ async def get_constructors_championship():
         # Clean up team names and get rid of standard boilerplate slop
         team = entry.get("team", {})
         team_name = team.get("teamName")
-        for word in ['Formula 1', 'F1', 'Racing', 'Team']:
+        for word in ['Formula 1', 'F1', 'Racing', 'Team', 'Scuderia']:
             team_name = team_name.replace(word, "").strip()
         country = team.get("country", "")
         results.append({
