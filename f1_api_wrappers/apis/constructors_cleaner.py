@@ -5,9 +5,13 @@ import pycountry
 import httpx
 from datetime import datetime, timedelta
 import pytz
+import os
 
 router = APIRouter()
-LAST_RACE_API_URL = "http://192.168.0.80:4463/f1/next_race/"
+
+LOCAL_IP = os.environ['LOCAL_IP'].strip()
+LAST_RACE_API_URL = "http://" + LOCAL_IP + ":4463/f1/next_race/"
+print(LAST_RACE_API_URL)
 
 MT = pytz.timezone("America/Edmonton")
 
@@ -45,6 +49,7 @@ async def get_next_race_end():
                 return race_dt + timedelta(hours=4)
         except Exception as e:
             print("Error fetching race time:", e)
+            print("Used URL:", LAST_RACE_API_URL)
     return None
 
 @router.get("/", summary="Fetch current constructors championship")
@@ -89,7 +94,8 @@ async def get_constructors_championship():
     race_end = await get_next_race_end()
     if race_end:
         expire = int((race_end - datetime.now(MT)).total_seconds()) 
-    else: 3600
+    else: 
+        expire = 3600
 
     await cache.set(cache_key, response_data, expire=expire)
     return response_data
