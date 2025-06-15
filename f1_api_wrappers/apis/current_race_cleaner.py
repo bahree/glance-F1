@@ -127,7 +127,10 @@ async def get_next_race():
     }
 
     next_event = None
-    detail_level = os.environ.get("EVENT_DETAIL").strip()
+    try:
+        detail_level = os.environ.get("EVENT_DETAIL").strip()
+    except Exception:
+        detail_level = 'main'
     for session_name, session_data in sorted_schedule:
         event_date_str = session_data.get("datetime_rfc3339")
         if not event_date_str:
@@ -138,8 +141,9 @@ async def get_next_race():
                 continue
         
         if detail_level == "race":
-            if session_name not in ('race'):
+            if session_name not in ('race', 'sprintRace'):
                 continue
+
         try:
             dt = datetime.fromisoformat(event_date_str)
             if dt > datetime.now(MT): 
