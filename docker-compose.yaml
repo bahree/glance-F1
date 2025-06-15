@@ -6,6 +6,7 @@ services:
     environment:
       - TIMEZONE=America/Edmonton
       - TRACK_COLOUR=#e5d486
+      - EVENT_DETAIL=main
     build:
       context: ./f1_api_wrappers
     ports:
