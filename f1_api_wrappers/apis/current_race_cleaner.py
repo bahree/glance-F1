@@ -53,10 +53,11 @@ async def get_next_race():
     next_race = None
     for race in races:
         race_date_str = race.get("schedule", {}).get("race", {}).get("date")
-        if not race_date_str:
+        race_time_str = race.get("schedule", {}).get("race", {}).get("time")
+        if not race_date_str or not race_time_str:
             continue
-        race_date = datetime.strptime(race_date_str, "%Y-%m-%d").date()
-        if race_date >= now:
+        race_datetime = datetime.strptime(f"{race_date_str}T{race_time_str}", "%Y-%m-%dT%H:%M:%SZ")
+        if race_datetime >= now:
             next_race = race
             break
 
