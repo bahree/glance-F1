@@ -27,4 +27,5 @@ I really enjoyed the theme and style of the community widgets, so I largely use 
 # Demo
 My current F1 Glance set up is shown below. 
 <br>
-![F1 API](https://github.com/user-attachments/assets/c58432b4-1a0f-4a9f-b7fc-647b36eef7d2)
+![F1 API](https://github.com/user-attachments/assets/f904c6f8-4e0c-4e29-8513-8bd535c5117b)
+
