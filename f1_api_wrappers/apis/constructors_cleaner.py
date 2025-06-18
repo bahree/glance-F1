@@ -10,7 +10,6 @@ import os
 router = APIRouter()
 
 LAST_RACE_API_URL = "http://localhost:4463/f1/next_race/"
-print(LAST_RACE_API_URL)
 
 TZ = os.environ.get("TIMEZONE").strip()
 if TZ not in pytz.all_timezones:

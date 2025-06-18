@@ -77,7 +77,6 @@ async def get_drivers_championship():
     drivers = data.get("drivers_championship", [])
     results = []
     for entry in drivers:
-        # Clean up team names and get rid of standard boilerplate slop
         driver = entry.get("driver", {})
         team = entry.get("team", {})
         country = driver.get("nationality", "")

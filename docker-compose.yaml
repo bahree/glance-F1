@@ -3,12 +3,11 @@ version: "3.9"
 services:
   f1_api:
     container_name: f1_api
+    image: skyallinott/f1_api:latest
     environment:
       - TIMEZONE=America/Edmonton
       - TRACK_COLOUR=#e5d486
       - EVENT_DETAIL=main # Optional. main tracks qualis and races (inc. sprints), race tracks races. 
-    build:
-      context: ./f1_api_wrappers
     ports:
       - 4463:4463
     restart: unless-stopped

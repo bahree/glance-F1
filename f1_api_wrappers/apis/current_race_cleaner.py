@@ -46,11 +46,11 @@ async def get_next_race():
         except Exception as e:
             return {"error": f"Exception while fetching: {e}"}
 
-    now = datetime.utcnow()
     races = sorted(calendar_data.get("races", []), key=lambda r: r.get("schedule", {}).get("race", {}).get("date", ""))
 
     # Loop through list in order until find first race with date past today. 
     next_race = None
+    now = datetime.utcnow()
     for race in races:
         race_date_str = race.get("schedule", {}).get("race", {}).get("date")
         race_time_str = race.get("schedule", {}).get("race", {}).get("time")
