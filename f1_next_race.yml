@@ -1,7 +1,7 @@
 - type: custom-api
   title: Next Race
   cache: 5m
-  url: http://192.168.0.80:4463/f1/next_race/
+  url: http://{LOCAL_IP}:4463/f1/next_race/
   template: |
     <div class="flex flex-column gap-10">
       {{ $session := index (.JSON.Array "race") 0 }}
@@ -28,7 +28,7 @@
 
         <div style="margin-block: 1rem;">
           <img
-            src="http://192.168.0.80:4463/f1/next_map/"
+            src="http://{LOCAL_IP}:4463/f1/next_map/"
             alt="Track Map"
             style="max-width: 100%; height: auto; border-radius: 8px;"
           />
