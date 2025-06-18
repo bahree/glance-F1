@@ -1,12 +1,30 @@
+
+
+<div align="center">
+  
+# The F1 Season... At A Glance
+  
+## Table of Contents:
+
+[Background](#background)
+<br>
+[Problem](#why-use-this-repo)
+<br>
+[Solution](#solution)
+<br>
+[Installation](#installation)
+<br>
+[Demo](#demo)
+<br>
+</div>
+
 # Background
-I host [glance](https://github.com/glanceapp/glance) on one of my home servers, Timothy. All my devices use a custom glance config as their default browser and new tab pages.
+I host [glance](https://github.com/glanceapp/glance) on one of my home servers. As a big F1 fan, I was excited to see that the community had added a [F1 integration](https://github.com/glanceapp/community-widgets/blob/main/widgets/formula1-widgets-by-abaza738/README.md), but was disappointed with the rigidity of the API it uses. 
 
-As a big F1 fan, I was excited to see that the community had added a [F1 integration](https://github.com/glanceapp/community-widgets/blob/main/widgets/formula1-widgets-by-abaza738/README.md).
-
-# Problem
-However, I had several issues with this integration.
+# Why Use this Repo?
+I ran into the following issues with the API that this repository solves:
 1. Times were shown in UTC, not specific to a users timezone.
-2. API calls were slowing down my Glance integration.
+2. API calls were slow and there was no smart caching, slowing down my Glance.
 3. Lack of control over data fields like team name. It shows lengthy official team names like "Mercedes AMG Petronas F1 Team" instead of just "Mercedes"
 4. Lacking detail. For instance, I wanted a track map, lap record holder, previous winners when it displayed the next race.
 5. Lack of dynamic control over event time. While you can select what event to have a countdown to (IE race vs. qualifying), you have to manually specify this instead of using time analysis to show the next event that hasn't passed.
@@ -22,7 +40,26 @@ The 4 end points are:
 4. Track map. This generates an SVG of the current track. It relies on positioning data from a prior years event at the same track.
 
 ## Widgets
-I really enjoyed the theme and style of the community widgets, so I largely use their theming and design, I just change the underlying API to achieve more custom results.
+I really enjoyed the theme and style of the community widgets by @abaza738, so I largely use their theming and design, I just change the underlying API to achieve more custom results.
+
+# Installation
+This repo uses docker compose to install. Verify that you are up to date. Below is an example compose file.
+```
+services:
+  f1_api:
+    container_name: f1_api
+    image: skyallinott/f1_api:latest
+    environment:
+      - TIMEZONE=America/Edmonton # Specify your timezone.
+      - TRACK_COLOUR=#e5d486 # Specify desired track map color
+      - EVENT_DETAIL=main # Optional. main tracks qualis and races (inc. sprints), race tracks races. 
+    ports:
+      - 4463:4463
+    restart: unless-stopped
+```
+
+To integrate with your glance set up (to install glance, see their documentation), add the [f1_next_race.yml](f1_next_race.yml), [f1_drivers_championship.yml](f1_drivers_championship.yml), and [f1_constructors_championship.yml](f1_constructors_championship.yml) to your glance config, making sure to replace the {LOCAL_IP} with your devices IP, as well as updating the ports if needed. 
+
 
 # Demo
 My current F1 Glance set up is shown below. 
