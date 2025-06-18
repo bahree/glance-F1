@@ -5,9 +5,13 @@ from svgwrite.base import Title
 import io
 import os 
 import re
+import unicodedata 
+
+def remove_accents(input_str):
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    return u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
 
 def generate_track_map_svg(year: int, gp: str, track: str, session_type: str = "Q") -> str:
-    # Matches glance yellow
     track_color = os.environ['TRACK_COLOUR'].strip()
 
     match = re.search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', track_color)
@@ -18,11 +22,15 @@ def generate_track_map_svg(year: int, gp: str, track: str, session_type: str = "
     # Load data from f1 API
     session = fastf1.get_session(year, gp, session_type)
 
+    if gp != remove_accents(session.event.Location) + " " + remove_accents(session.event.Country):
+        raise ValueError("Track map did not return valid match.")
+
     # I hate this API, please let me load just one drivers telemetry not everything...
     # SO SO SO SO SO SLOW
     session.load(weather=False, messages=False, telemetry=True)
     lap = session.laps.pick_fastest()
     telemetry = lap.get_telemetry().dropna(subset=["X", "Y"])
+    telemetry.loc[len(telemetry)] = telemetry.iloc[0]
 
     # api position data defaults to top is 'north.' This isn't how most maps "look" though,
     # so they also include a rotation parameter to match standard images
