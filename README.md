@@ -74,7 +74,7 @@ To integrate with your glance set up (to install glance, see their documentation
 # Demo
 My current F1 Glance set up is shown below on the left, versus the community widget on the right.
 
-<div float="left" >
+<div align="center" >
   <img src="./glance-f1.png" width="225px" height = "600px" hspace="20px" />
   <img src="./community-f1.png" width="225px" height = "600px" hspace="20px" />
 </div>
