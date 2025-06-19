@@ -8,7 +8,7 @@
 
 [Background](#background)
 <br>
-[Why Use This RepO?](#why-use-this-repo)
+[Why Use This Repo?](#why-use-this-repo)
 <br>
 [Solution](#solution)
 <br>
