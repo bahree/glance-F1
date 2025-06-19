@@ -3,12 +3,20 @@
 <div align="center">
   
 # The F1 Season... At A Glance
-  
+
+![README](https://img.shields.io/badge/Actively%20Mainted-Yes)
+![README](https://img.shields.io/github/v/release/skyallinott/glance-f1)
+![README](https://img.shields.io/github/commit-activity/w/skyallinott/glance-f1)
+![README](https://img.shields.io/github/commits-since/skyallinott/glance-f1/latest)
+![README](https://img.shields.io/docker/pulls/skyallinott/f1_api)
+![README](https://img.shields.io/github/issues/skyallinott/glance-f1)
+
+
 ## Table of Contents:
 
 [Background](#background)
 <br>
-[Problem](#why-use-this-repo)
+[Why Use This Repo?](#why-use-this-repo)
 <br>
 [Solution](#solution)
 <br>
@@ -66,7 +74,7 @@ To integrate with your glance set up (to install glance, see their documentation
 # Demo
 My current F1 Glance set up is shown below on the left, versus the community widget on the right.
 
-<div float="left" >
+<div align="center" >
   <img src="./glance-f1.png" width="225px" height = "600px" hspace="20px" />
   <img src="./community-f1.png" width="225px" height = "600px" hspace="20px" />
 </div>
