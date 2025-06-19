@@ -62,9 +62,9 @@ To integrate with your glance set up (to install glance, see their documentation
 
 
 # Demo
-My current F1 Glance set up is shown below on the left, versus the standard version on the right.
+My current F1 Glance set up is shown below on the left, versus the community widget on the right.
 
 <div float="left" >
-  <img src="./glance-f1.png" width="50vw" height = "50vh" hspace="20px" />
-  <img src="./community-f1.png" width="50vw" height = "50vh" hspace="20px" />
+  <img src="./glance-f1.png" width="225px" height = "600px" hspace="20px" />
+  <img src="./community-f1.png" width="225px" height = "600px" hspace="20px" />
 </div>
