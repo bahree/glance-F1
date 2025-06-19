@@ -64,7 +64,9 @@ To integrate with your glance set up (to install glance, see their documentation
 
 
 # Demo
-My current F1 Glance set up is shown below. 
-<br>
-![F1 API](https://github.com/user-attachments/assets/f904c6f8-4e0c-4e29-8513-8bd535c5117b)
+My current F1 Glance set up is shown below on the left, versus the community widget on the right.
 
+<div float="left" >
+  <img src="./glance-f1.png" width="225px" height = "600px" hspace="20px" />
+  <img src="./community-f1.png" width="225px" height = "600px" hspace="20px" />
+</div>
