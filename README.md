@@ -62,14 +62,9 @@ To integrate with your glance set up (to install glance, see their documentation
 
 
 # Demo
-My current F1 Glance set up is shown below. 
+My current F1 Glance set up is shown below on the left, versus the standard version on the right.
 
-<div style = "display: flex; align-items: center;justify-content:center;gap: 7.5vw;">
-
-![F1 API](./glance-f1.png)
-
-vs.
-
-![Community API](./community-f1.png)
-
+<div float="left" >
+  <img src="./glance-f1.png" width="50vw" height = "50vh" hspace="20px" />
+  <img src="./community-f1.png" width="50vw" height = "50vh" hspace="20px" />
 </div>
