@@ -63,6 +63,13 @@ To integrate with your glance set up (to install glance, see their documentation
 
 # Demo
 My current F1 Glance set up is shown below. 
-<br>
-![F1 API](https://github.com/user-attachments/assets/f904c6f8-4e0c-4e29-8513-8bd535c5117b)
 
+<div style = "display: flex; align-items: center;justify-content:center;gap: 7.5vw;">
+
+![F1 API](./glance-f1.png)
+
+vs.
+
+![Community API](./community-f1.png)
+
+</div>
