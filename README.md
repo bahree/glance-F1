@@ -45,6 +45,8 @@ I really enjoyed the theme and style of the community widgets by @abaza738, so I
 # Installation
 This repo uses docker compose to install. Verify that you are up to date. Below is an example compose file.
 ```yaml
+version: "3.9"
+
 services:
   f1_api:
     container_name: f1_api
