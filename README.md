@@ -15,7 +15,7 @@
 ![README](https://img.shields.io/github/commits-difference/skyallinott/glance-f1?base=master&head=development&label=Development%20Commits%20Not%20Merged%20Into%20Main)
 
 
-## Table of Contents:
+___
 
 [Background](#background)
 <br>
