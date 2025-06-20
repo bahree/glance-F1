@@ -13,7 +13,7 @@
 ![README](https://img.shields.io/github/commit-activity/w/skyallinott/glance-f1)
 ![README](https://img.shields.io/github/commits-since/skyallinott/glance-f1/latest)
 ![README](https://img.shields.io/github/commits-difference/skyallinott/glance-f1?base=master&head=development&label=Development%20Commits%20Not%20Merged%20Into%20Main)
-
+</div>
 
 ___
 
