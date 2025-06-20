@@ -13,7 +13,6 @@
 ![README](https://img.shields.io/github/commit-activity/w/skyallinott/glance-f1)
 ![README](https://img.shields.io/github/commits-since/skyallinott/glance-f1/latest)
 ![README](https://img.shields.io/github/commits-difference/skyallinott/glance-f1?base=master&head=development&label=Development%20Commits%20Not%20Merged%20Into%20Main)
-</div>
 
 ___
 
@@ -24,6 +23,7 @@ ___
 [Installation](#installation) • [Demo](#demo)
 
 </h3>
+</div>
 
 # Background
 I host [glance](https://github.com/glanceapp/glance) on one of my home servers. As a big F1 fan, I was excited to see that the community had added a [F1 integration](https://github.com/glanceapp/community-widgets/blob/main/widgets/formula1-widgets-by-abaza738/README.md), but was disappointed with the rigidity of the API it uses. 
