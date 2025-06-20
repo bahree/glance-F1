@@ -23,6 +23,7 @@ ___
 [Installation](#installation) • [Demo](#demo)
 
 </h3>
+
 </div>
 
 # Background
@@ -77,6 +78,6 @@ On the left below is a possible configuration using this custom API. On the righ
 The largest difference is localized time zones, track map, added track details, and general tidying up of the championship orders. 
 
 <div align="center" >
-  <img src="./glance-f1.png" width="225px" height = "600px" hspace="20px" />
-  <img src="./community-f1.png" width="225px" height = "600px" hspace="20px" />
+  <img src="./Demo Images/glance-f1.png" width="225px" height = "600px" hspace="20px" />
+  <img src="./Demo Images/community-f1.png" width="225px" height = "600px" hspace="20px" />
 </div>
