@@ -75,7 +75,9 @@ To integrate with your glance set up (to install glance, see their documentation
 
 
 # Demo
-My current F1 Glance set up is shown below on the left, versus the community widget on the right.
+On the left below is a possible configuration using this custom API. On the right is a configuration using the default API used in the community widget.
+
+The largest difference is localized time zones, track map, added track details, and general tidying up of the championship orders. 
 
 <div align="center" >
   <img src="./glance-f1.png" width="225px" height = "600px" hspace="20px" />
