@@ -17,23 +17,20 @@
 
 ___
 
-[Background](#background)
+<h3>
+
+[Background](#background) • [Why Use This Repo?](#why-use-this-repo) • [Solution](#solution)
 <br>
-[Why Use This Repo?](#why-use-this-repo)
-<br>
-[Solution](#solution)
-<br>
-[Installation](#installation)
-<br>
-[Demo](#demo)
-<br>
-</div>
+[Installation](#installation) • [Demo](#demo)
+
+</h3>
 
 # Background
 I host [glance](https://github.com/glanceapp/glance) on one of my home servers. As a big F1 fan, I was excited to see that the community had added a [F1 integration](https://github.com/glanceapp/community-widgets/blob/main/widgets/formula1-widgets-by-abaza738/README.md), but was disappointed with the rigidity of the API it uses. 
 
 # Why Use this Repo?
 I ran into the following issues with the API that this repository solves:
+
 1. Times were shown in UTC, not specific to a users timezone.
 2. API calls were slow and there was no smart caching, slowing down my Glance.
 3. Lack of control over data fields like team name. It shows lengthy official team names like "Mercedes AMG Petronas F1 Team" instead of just "Mercedes"
