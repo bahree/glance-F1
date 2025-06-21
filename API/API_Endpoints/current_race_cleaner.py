@@ -5,6 +5,7 @@ import httpx
 from datetime import datetime, timedelta
 import pytz
 import os
+import fastf1
 
 router = APIRouter()
 
@@ -74,10 +75,11 @@ async def get_next_race():
             val["datetime_rfc3339"] = dt_mt.isoformat()
 
     # Clean up race name
-    race_name = next_race.get("raceName")
-    if race_name:
-        year = calendar_data.get("season")
-        next_race["raceName"] = race_name.replace(str(year), "").strip()
+    year = calendar_data.get("season")
+    calendar_round = next_race.get("round")
+
+    event_details = fastf1.get_event(year = year, gp = calendar_round)
+    next_race["raceName"] = event_details.EventName
 
     # Circuit processing
     circuit = next_race.get("circuit", {})

@@ -29,7 +29,7 @@
         <div style="margin-block: 1rem;">
           <img
             src="http://{LOCAL_IP}:4463/f1/next_map/"
-            alt="Track Map"
+            onerror="this.style.display='none'"
             style="max-width: 100%; height: auto; border-radius: 8px;"
           />
         </div>

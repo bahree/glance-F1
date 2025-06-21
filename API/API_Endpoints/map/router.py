@@ -91,7 +91,10 @@ async def get_dynamic_track_map():
             expire = 3600  # fallback: 1 hour if can't fetch next race data
 
         print("Cache expired: Fetching track map for " + str(gp) + " " + str(year))
-        svg_content = generate_track_map_svg(year, gp, circuit.get("circuitName"), "Q")
+        try:
+            svg_content = generate_track_map_svg(year, gp, circuit.get("circuitName"), "Q")
+        except Exception as e:
+            raise ValueError("Could not print map. Likely catching FastF1 pulling wrong track.")
         svg_bytes = svg_content.encode("utf-8")
         await cache.set(cache_key, svg_content, expire=expire)
 

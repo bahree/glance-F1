@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-from apis.current_race_cleaner import router as current_race_cleaner
-from apis.constructors_cleaner import router as constructors_cleaner
-from apis.drivers_cleaner import router as drivers_cleaner
-from apis.map.router import router as map_router
+
+from API_Endpoints.current_race_cleaner import router as current_race_cleaner
+from API_Endpoints.constructors_cleaner import router as constructors_cleaner
+from API_Endpoints.drivers_cleaner import router as drivers_cleaner
+from API_Endpoints.map.router import router as map_router
 
 app = FastAPI()
 
