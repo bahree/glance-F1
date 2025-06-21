@@ -8,7 +8,7 @@ services:
     environment:
       - TIMEZONE=America/Edmonton
       - TRACK_COLOUR=#e5d486
-      - EVENT_DETAUL=main
+      - EVENT_DETAIL=main
     build:
       context: ./API
     ports:
