@@ -23,7 +23,7 @@ def generate_track_map_svg(year: int, gp: str, track: str, session_type: str = "
     session = fastf1.get_session(year, gp, session_type)
 
     if gp != remove_accents(session.event.Location) + " " + remove_accents(session.event.Country):
-        raise ValueError("Track map did not return valid match.")
+        raise ValueError("Map not matching correctly")
 
     # I hate this API, please let me load just one drivers telemetry not everything...
     # SO SO SO SO SO SLOW
