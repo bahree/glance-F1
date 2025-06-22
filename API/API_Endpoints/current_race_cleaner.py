@@ -71,7 +71,7 @@ async def get_next_race():
         if val["date"] and val["time"]:
             dt_mt = convert_to_mt(val["date"], val["time"])
             val["date"] = dt_mt.strftime("%Y-%m-%d")
-            val["time"] = dt_mt.strftime("%H:%M:%S")
+            val["time"] = dt_mt.strftime("%I%p").replace('0', '')
             val["datetime_rfc3339"] = dt_mt.isoformat()
 
     # Clean up race name
@@ -136,8 +136,10 @@ async def get_next_race():
         detail_level = 'main'
 
     for session_name, session_data in sorted_schedule:
-        event_date_str = session_data.get("datetime_rfc3339")
-        if not event_date_str:
+        event_datetime_str = session_data.get("datetime_rfc3339")
+        event_date_str = session_data.get("date")
+        event_time_str = session_data.get("time")
+        if not event_datetime_str:
             continue
 
         if detail_level == "main":
@@ -154,11 +156,13 @@ async def get_next_race():
             raise ValueError("Select one of: 'main', 'race', or 'detailed'. No selection defaults to main.")
 
         try:
-            dt = datetime.fromisoformat(event_date_str)
+            dt = datetime.fromisoformat(event_datetime_str)
             if dt > datetime.now(MT): 
                 next_event = {
                     "session": session_name_readable.get(session_name, session_name.title()),
-                    "datetime": event_date_str
+                    "date": event_date_str,
+                    "time": event_time_str,
+                    "datetime": event_datetime_str
                 }
                 break
         except Exception:

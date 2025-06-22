@@ -23,7 +23,7 @@
           ></span>
         </p>
         <p class="size-h5">
-          {{ $session.String "schedule.race.date" }} @  {{ $session.String "schedule.race.time" }}MT
+          {{ .JSON.String "next_event.date" }} @  {{ .JSON.String "next_event.time" }}MT
         </p>
 
         <div style="margin-block: 1rem;">
