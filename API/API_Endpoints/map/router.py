@@ -12,7 +12,8 @@ from .map_generator import generate_track_map_svg
 
 router = APIRouter()
 
-LAST_RACE_API_URL = "http://localhost:4463/f1/next_race/"
+# Use our internal API endpoint instead of external API
+NEXT_RACE_API_URL = "http://localhost:4463/f1/next_race/"
 
 TZ = os.environ.get("TIMEZONE").strip()
 if TZ not in pytz.all_timezones:
@@ -27,19 +28,22 @@ async def startup():
 async def get_next_race_end():
     async with httpx.AsyncClient() as client:
         try:
-	   # Use f1_latest API to fetch race time for smart caching
-            r = await client.get(LAST_RACE_API_URL)
+            # Use our internal next race API to fetch race time for smart caching
+            r = await client.get(NEXT_RACE_API_URL)
+            r.raise_for_status()
             data = r.json()
-            next_event = data.get("next_event", {})
-            race_dt_str = next_event.get("datetime")
-
-            if race_dt_str:
-                race_dt = datetime.fromisoformat(race_dt_str)
-                race_dt = race_dt.astimezone(MT)
-            return race_dt
+            
+            # Extract race time from our internal API response format
+            race_data = data.get("race", [])
+            if race_data:
+                race_dt_str = race_data[0].get("schedule", {}).get("race", {}).get("datetime_rfc3339")
+                if race_dt_str:
+                    race_dt = datetime.fromisoformat(race_dt_str)
+                    race_dt = race_dt.astimezone(MT)
+                    return race_dt
         except Exception as e:
             print("Error fetching race time:", e)
-            print("Used URL:", LAST_RACE_API_URL)
+            print("Used URL:", NEXT_RACE_API_URL)
     return None
 
 @router.get("/", summary="Fetch next track map")
@@ -54,28 +58,34 @@ async def get_dynamic_track_map():
 
     async with httpx.AsyncClient() as client:
         try:
-            resp = await client.get(LAST_RACE_API_URL)
+            resp = await client.get(NEXT_RACE_API_URL)
             resp.raise_for_status()
         except Exception as e:
             print("Fetch error:", e)
-            print("URL:", LAST_RACE_API_URL)
+            print("URL:", NEXT_RACE_API_URL)
             return PlainTextResponse(f"Failed to fetch race info: {str(e)}", status_code=502)
         
 
     try:
         data = resp.json()
-        race = data.get("race", [{}])[0]
-        year = int(data.get("season", 2024)) - 1
-        circuit = race.get("circuit")
-        country = circuit.get("country")
-        city = circuit.get("city")
-        gp = city + " " + country
-        race_dt_str = race.get("schedule", {}).get("race", {}).get("datetime_rfc3339")
+        race_data = data.get("race", [])
+        if not race_data:
+            raise ValueError("No race data found in API response")
+        
+        # Get the next race data from our internal API
+        next_race = race_data[0]  # Our API returns the next race as first item
+        
+        year = int(data.get("season", 2024))
+        circuit = next_race.get("circuit", {})
+        country = circuit.get("country", "")
+        city = circuit.get("city", "")
+        gp = f"{city} {country}".strip()
+        race_dt_str = next_race.get("schedule", {}).get("race", {}).get("datetime_rfc3339")
 
         if not gp or not race_dt_str:
-            raise ValueError("Missing circuitId or race time in API response")
+            raise ValueError("Missing circuit info or race time in API response")
 
-        # Cacge logic.
+        # Cache logic.
         # Doesn't use same logic as current/drivers/constructors due to not needing to
         # reload the track map between weekend events 
         try:
@@ -90,11 +100,21 @@ async def get_dynamic_track_map():
             print("Cache expiry fallback due to error:", e)
             expire = 3600  # fallback: 1 hour if can't fetch next race data
 
-        print("Cache expired: Fetching track map for " + str(gp) + " " + str(year))
+        print(f"Cache expired: Fetching track map for {gp} {year}")
         try:
-            svg_content = generate_track_map_svg(year, gp, circuit.get("circuitName"), "Q")
+            svg_content = generate_track_map_svg(year, gp, circuit.get("circuitName", "Unknown Circuit"), "Q")
         except Exception as e:
-            raise ValueError("Could not print map. Likely catching FastF1 pulling wrong track.")
+            print(f"Map generation error for {year}: {str(e)}")
+            # Fallback to previous year if current year data doesn't exist (common for future seasons)
+            if year > 2024:
+                print(f"Trying fallback year {year-1} for {gp}")
+                try:
+                    svg_content = generate_track_map_svg(year-1, gp, circuit.get("circuitName", "Unknown Circuit"), "Q")
+                except Exception as fallback_e:
+                    print(f"Fallback map generation error: {str(fallback_e)}")
+                    return PlainTextResponse(f"Could not generate track map for {year} or {year-1}: {str(e)} / {str(fallback_e)}", status_code=500)
+            else:
+                return PlainTextResponse(f"Could not generate track map: {str(e)}", status_code=500)
         svg_bytes = svg_content.encode("utf-8")
         await cache.set(cache_key, svg_content, expire=expire)
 

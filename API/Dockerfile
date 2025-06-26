@@ -8,5 +8,9 @@ RUN pip install --no-cache-dir -r requirements.txt \
 
 COPY . .
 
+# Set default environment variables
+ENV TRACK_COLOUR="#e10600"
+ENV TIMEZONE="America/Los_Angeles"
+
 CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "4463"]
 

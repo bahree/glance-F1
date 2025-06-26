@@ -1,0 +1,40 @@
+- type: custom-api
+  title: F1 Race Calendar (Compact)
+  cache: 1h
+  url: http://f1-api:4463/f1/races/
+  template: |
+    <div class="flex flex-column gap-4">
+      <div class="flex justify-between align-center margin-block-4">
+        <p class="size-h5 color-highlight">{{ .JSON.String "season" }} Season</p>
+        <p class="size-h7 color-primary">{{ .JSON.String "total_races" }} races</p>
+      </div>
+      
+      {{ range .JSON.Array "races" }}
+        <div class="flex justify-between align-center padding-4 rounded 
+          {{ if eq (.String "status") "completed" }}bg-green-subtle{{ else if eq (.String "status") "today" }}bg-yellow-subtle{{ else }}bg-primary-subtle{{ end }}">
+          
+          <div>
+            <p class="size-h6 color-highlight">
+              R{{ .String "round" }}: {{ .String "raceName" }}
+            </p>
+            <p class="size-h7 color-primary">
+              {{ .String "schedule.race.date" }} - {{ .String "circuit.country" }}
+            </p>
+          </div>
+          
+          <div class="text-right">
+            {{ if .String "winner.surname" }}
+              <p class="size-h7 color-green">🏆 {{ .String "winner.surname" }}</p>
+            {{ else }}
+              {{ $datetime := .String "schedule.race.datetime_rfc3339" }}
+              <p class="size-h7" {{ parseRelativeTime "rfc3339" $datetime }}></p>
+            {{ end }}
+          </div>
+          
+        </div>
+      {{ end }}
+      
+      <p class="size-h7 color-primary text-center margin-block-4">
+        Updated: {{ .JSON.String "cache_expires" }}
+      </p>
+    </div>

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  glance:
+    image: glanceapp/glance
+    container_name: glance
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./glance.yml:/app/glance.yml
+    restart: unless-stopped
+
+  f1-api:
+    image: amitbahree/glance-f1:latest
+    container_name: f1-api
+    ports:
+      - "4463:4463"
+    environment:
+      - TIMEZONE=America/New_York  # Or your preferred timezone
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4463/f1/next_race/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  default:
+    name: glance-network

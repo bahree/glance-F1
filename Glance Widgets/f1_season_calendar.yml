@@ -1,0 +1,59 @@
+- type: custom-api
+  title: F1 2025 Season Calendar
+  cache: 1h
+  url: http://f1-api:4463/f1/races/
+  template: |
+    <div class="flex flex-column gap-8">
+      <div class="flex justify-between align-center margin-block-4">
+        <p class="size-h4 color-highlight">
+          {{ .JSON.String "championship.championshipName" }}
+        </p>
+        <p class="size-h6 color-primary">
+          {{ .JSON.String "total_races" }} Races
+        </p>
+      </div>
+      
+      {{ range .JSON.Array "races" }}
+        <div class="border-l-4 padding-l-8 margin-block-4 
+          {{ if eq (.String "status") "completed" }}border-green{{ else if eq (.String "status") "today" }}border-yellow{{ else }}border-primary{{ end }}">
+          
+          <div class="flex justify-between align-center">
+            <p class="size-h6 color-highlight">
+              Round {{ .String "round" }}: {{ .String "raceName" }}
+            </p>
+            <span class="size-h7 padding-x-4 padding-y-2 rounded 
+              {{ if eq (.String "status") "completed" }}bg-green color-white{{ else if eq (.String "status") "today" }}bg-yellow color-black{{ else }}bg-primary color-white{{ end }}">
+              {{ if eq (.String "status") "completed" }}✓ Done{{ else if eq (.String "status") "today" }}🏁 Today{{ else }}📅 Upcoming{{ end }}
+            </span>
+          </div>
+          
+          <p class="size-h7 color-primary margin-block-2">
+            {{ .String "circuit.circuitName" }}, {{ .String "circuit.country" }}
+          </p>
+          
+          <div class="flex justify-between align-center margin-block-2">
+            <p class="size-h7">
+              {{ .String "schedule.race.date" }} @ {{ .String "schedule.race.time" }}
+            </p>
+            {{ if .String "winner.name" }}
+              <p class="size-h7 color-green">
+                🏆 {{ .String "winner.name" }} {{ .String "winner.surname" }} ({{ .String "teamWinner.teamName" }})
+              </p>
+            {{ end }}
+          </div>
+          
+          {{ if ne (.String "status") "completed" }}
+            {{ $datetime := .String "schedule.race.datetime_rfc3339" }}
+            <p class="size-h7 color-highlight" title="{{ .String "schedule.race.date" }}" {{ parseRelativeTime "rfc3339" $datetime }}>
+            </p>
+          {{ end }}
+          
+        </div>
+      {{ end }}
+      
+      <div class="margin-block-8 padding-8 bg-secondary rounded">
+        <p class="size-h7 color-primary text-center">
+          Last updated: {{ .JSON.String "cache_expires" }} ({{ .JSON.String "timezone" }})
+        </p>
+      </div>
+    </div>

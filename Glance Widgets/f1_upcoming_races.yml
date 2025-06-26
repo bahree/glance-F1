@@ -1,0 +1,46 @@
+- type: custom-api
+  title: F1 Upcoming Races
+  cache: 1h
+  url: http://f1-api:4463/f1/races/
+  template: |
+    <div class="flex flex-column gap-6">
+      <p class="size-h5 color-highlight text-center">{{ .JSON.String "season" }} Upcoming Races</p>
+      
+      {{ range .JSON.Array "races" }}
+        {{ if or (eq (.String "status") "upcoming") (eq (.String "status") "today") }}
+        <div class="padding-4 rounded 
+          {{ if eq (.String "status") "today" }}bg-yellow-subtle border-l-4 border-yellow{{ else }}bg-primary-subtle border-l-4 border-primary{{ end }}">
+          
+          <div class="flex justify-between align-center margin-block-2">
+            <p class="size-h6 color-highlight">
+              Round {{ .String "round" }}: {{ .String "raceName" }}
+            </p>
+            {{ if eq (.String "status") "today" }}
+              <span class="size-h7 bg-yellow color-black padding-x-4 padding-y-2 rounded">🏁 TODAY</span>
+            {{ end }}
+          </div>
+          
+          <p class="size-h7 color-primary margin-block-2">
+            📍 {{ .String "circuit.circuitName" }}, {{ .String "circuit.country" }}
+          </p>
+          
+          <div class="flex justify-between align-center margin-block-2">
+            <p class="size-h7">
+              📅 {{ .String "schedule.race.date" }} @ {{ .String "schedule.race.time" }}
+            </p>
+            {{ $datetime := .String "schedule.race.datetime_rfc3339" }}
+            <p class="size-h7 color-highlight" {{ parseRelativeTime "rfc3339" $datetime }}></p>
+          </div>
+          
+          <p class="size-h7 color-primary">
+            🏁 {{ .String "laps" }} laps × {{ .String "circuit.circuitLengthKm" }}km = {{ .String "totalDistanceKm" }}km total
+          </p>
+          
+        </div>
+        {{ end }}
+      {{ end }}
+      
+      <p class="size-h7 color-primary text-center margin-block-4">
+        Cache expires: {{ .JSON.String "cache_expires" }}
+      </p>
+    </div>

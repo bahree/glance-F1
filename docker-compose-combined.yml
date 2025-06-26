@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  glance:
+    container_name: glance
+    image: glanceapp/glance
+    restart: unless-stopped
+    volumes:
+      - ./config:/app/config
+      - ./assets:/app/assets
+      # Optionally, also mount docker socket if you want to use the docker containers widget
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - TZ=America/Los_Angeles #https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+      - F1_SERVER=f1-api  # Use container name instead of IP
+    ports:
+      - 8080:8080
+    env_file: .env
+    depends_on:
+      - f1-api
+    networks:
+      - glance-network
+
+  f1-api:
+    image: amitbahree/glance-f1:latest
+    container_name: f1-api
+    ports:
+      - "4463:4463"  # Still expose externally for direct access if needed
+    environment:
+      - TIMEZONE=America/Los_Angeles  # Match your Glance timezone
+      - TRACK_COLOUR=#e10600  # F1 Red color for track maps
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4463/f1/next_race/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - glance-network
+
+networks:
+  glance-network:
+    driver: bridge
